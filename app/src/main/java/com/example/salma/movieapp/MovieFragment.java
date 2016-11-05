@@ -100,7 +100,7 @@ public class MovieFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
             try {
-                URL url = new URL("https://api.themoviedb.org/3/movie/popular?api_key=f0ba9b3c0bcba6cd1077b914b6eb5e08");
+                URL url = new URL("");
                 // Create the request to moviedb, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
