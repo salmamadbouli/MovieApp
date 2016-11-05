@@ -42,7 +42,6 @@ public class MovieFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mMovieAdapter = new MovieAdapter(getActivity(),movies);
-        Log.d("OnCreateView","onCreateView Done");
         // attach the adapter to the gridView
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movies);
         gridView.setAdapter(mMovieAdapter);
@@ -100,17 +99,14 @@ public class MovieFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
             try {
-                URL url = new URL("");
+                URL url = new URL("https://api.themoviedb.org/3/movie/popular?api_key=f0ba9b3c0bcba6cd1077b914b6eb5e08");
                 // Create the request to moviedb, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
-                Log.d("Debug ", "Connection Done");
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
-                Log.d("Debug ", "Buffer Done");
-
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
@@ -124,8 +120,6 @@ public class MovieFragment extends Fragment {
                     // buffer for debugging.
                     buffer.append(line + "\n");
                 }
-                Log.d("Debug ", "BufferLoop Done");
-
                 if (buffer.length() == 0) {
                     // Stream was empty.  No point in parsing.
                     return null;
