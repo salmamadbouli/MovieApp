@@ -1,12 +1,16 @@
 package com.example.salma.movieapp;
 
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -28,6 +32,13 @@ public class MovieFragment extends Fragment {
     private MovieAdapter mMovieAdapter;
     private View view;
     private ArrayList<Movie> movies = new ArrayList<>();
+    ArrayList<Movie>arrayList_Favs=new ArrayList<>();
+    GridView gridView;
+    private NameListener mListener;
+    void setNameListener(NameListener nameListener) {
+        this.mListener = nameListener;
+    }
+    String API = "f0ba9b3c0bcba6cd1077b914b6eb5e08";
     public MovieFragment() {
         // Required empty public constructor
     }
@@ -36,6 +47,52 @@ public class MovieFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        FetchMovieTask mtask = new FetchMovieTask(mMovieAdapter , view);
+        int id = item.getItemId();
+        if (id == R.id.action_sort_by_toprated) {
+            movies.clear();
+            gridView.setAdapter(mMovieAdapter);
+            mMovieAdapter.notifyDataSetChanged();
+            mtask.execute("https://api.themoviedb.org/3/movie/top_rated?api_key=" + API);
+        }
+
+        if (id == R.id.action_sort_by_popular) {
+            movies.clear();
+            gridView.setAdapter(mMovieAdapter);
+            mMovieAdapter.notifyDataSetChanged();
+            mtask.execute("https://api.themoviedb.org/3/movie/popular?api_key=" + API);
+        }
+        if (id == R.id.action_favourite) {
+            MovieDatabase movieDatabase= new MovieDatabase(getActivity());
+            movies.clear();
+            mMovieAdapter.notifyDataSetChanged();
+            ArrayList<Movie> test = movieDatabase.getFavsMovies();
+            for (int i =0; i<test.size(); i++) {
+                movies.add(test.get(i));
+            }
+            mMovieAdapter = new MovieAdapter(getContext(), movies);
+            mMovieAdapter.notifyDataSetChanged();
+            gridView.setAdapter(mMovieAdapter);
+
+//            arrayList_Favs=movieDatabase.getFavsMovies();
+//            MovieAdapter movieAdapter= new MovieAdapter(getContext(), new ArrayList<Movie>());
+//            gridView.setAdapter(movieAdapter);
+//            movieAdapter.notifyDataSetChanged();
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,11 +100,23 @@ public class MovieFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mMovieAdapter = new MovieAdapter(getActivity(),movies);
         // attach the adapter to the gridView
-        GridView gridView = (GridView) rootView.findViewById(R.id.gridview_movies);
+
+        gridView = (GridView) rootView.findViewById(R.id.gridview_movies);
         gridView.setAdapter(mMovieAdapter);
         // calling the AsyncTask
         FetchMovieTask movieTask = new FetchMovieTask(mMovieAdapter, rootView);
-        movieTask.execute();
+        movieTask.execute("https://api.themoviedb.org/3/movie/popular?api_key=" + API);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie;
+                if(movies.size()==0)
+                    movie = arrayList_Favs.get(position);
+                else
+                    movie = movies.get(position);
+                mListener.setSelectedName(movie);
+            }
+        });
         return rootView;
     }
 
@@ -67,6 +136,7 @@ public class MovieFragment extends Fragment {
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
+            final String ID = "id";
             final String RESULTS = "result";
             final String TITLE = "title";
             final String POSTER_PATH = "poster_path";
@@ -82,9 +152,10 @@ public class MovieFragment extends Fragment {
                 JSONObject Data = moviesArray.getJSONObject(i);
                 Movie movie = new Movie();
                 movie.setTitle(Data.getString("title"));
+                movie.setId(Data.getString("id"));
                 movie.setPosterPath(Data.getString("poster_path"));
                 movie.setSynopsis(Data.getString("overview"));
-                movie.setRating(Data.getDouble("vote_average"));
+                movie.setRating(Data.getString("vote_average"));
                 movie.setReleaseDate(Data.getString("release_date"));
                 movies.add(movie);
             }
@@ -99,7 +170,7 @@ public class MovieFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
             try {
-                URL url = new URL("https://api.themoviedb.org/3/movie/popular?api_key=f0ba9b3c0bcba6cd1077b914b6eb5e08");
+                URL url = new URL(params[0]);
                 // Create the request to moviedb, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
