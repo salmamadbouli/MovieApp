@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:fillViewport="false">
+    >
+    <RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20px"
+    tools:context="com.example.salma.movieapp.DetailActivityFragment"
+    tools:showIn="@layout/activity_detail">
+
+    <TextView android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"/>
+    <ImageView android:id="@+id/detail_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20px"
+        android:layout_below="@id/detail_title" />
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:layout_marginTop="75px"
+        android:layout_marginRight="10px"
+        android:layout_below="@id/detail_title"
+        android:layout_toRightOf="@id/detail_poster" />
+    <TextView android:id="@+id/detail_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="75px"
+        android:layout_below="@id/detail_title"
+        android:layout_toRightOf="@id/rate" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ReleaseDate:"
+        android:layout_marginRight="10px"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_below="@id/rate"
+        android:layout_toRightOf="@id/detail_poster" />
+    <TextView android:id="@+id/detail_release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:layout_below="@id/detail_rating"
+        android:layout_toRightOf="@id/date"/>
+        <Button
+            android:id="@+id/btn_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/detail_release"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="220dp"
+            android:background="@color/blue"
+            android:text="Favourite "/>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description:"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20px"
+        android:layout_below="@id/detail_poster"/>
+    <TextView android:id="@+id/detail_synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="synopsis"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@id/description"
+        android:layout_marginBottom="10px"
+        />
+    <TextView
+        android:id="@+id/Trailer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trailers:"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20px"
+        android:layout_below="@id/detail_synopsis" />
+    <ListView
+        android:id="@+id/trailers"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/Trailer"
+        android:layout_marginBottom="10px"
+        >
+    </ListView>
+        <TextView
+            android:id="@+id/Reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews:"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20px"
+            android:layout_below="@id/trailers" />
+        <ListView
+        android:id="@+id/reviews"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Reviews">
+    </ListView>
+
+    </RelativeLayout>
+</ScrollView>
