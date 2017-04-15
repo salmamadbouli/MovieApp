@@ -11,19 +11,19 @@ import java.util.ArrayList;
 
 
 public class MovieDatabase extends SQLiteOpenHelper {
-    private Context context;
+    public Context context;
 
-    private static final int DATABASEVERSION =15;
-    private static final String MovieDBName = "Favourite";
-    private static final String Table = "favourite_table";
+    public static final int DATABASEVERSION =15;
+    public static final String MovieDBName = "Favourite";
+    public static final String Table = "favourite_table";
 
-    private static final String id = "id";
-    private static final String poster= "poster";
-    private static final String title= "title";
-    private static final String released_date= "date";
-    private static final String rate= "rate";
-    private static final String synopsis= "synopsis";
-    private final static String CREATE_TABLE = "CREATE TABLE " + Table + "("
+    public static final String id = "id";
+    public static final String poster= "poster";
+    public static final String title= "title";
+    public static final String released_date= "date";
+    public static final String rate= "rate";
+    public static final String synopsis= "synopsis";
+    public final static String CREATE_TABLE = "CREATE TABLE " + Table + "("
             + id + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
             + poster + " VARCHAR(250) ,"
             + title + " CHAR(250) ,"

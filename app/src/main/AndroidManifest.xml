@@ -26,4 +26,9 @@
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
+    <provider
+        android:authorities="com.example.salma.movieapp.MovieProvider"
+        android:name="MovieProvider"
+        android:exported="true"/>
+
 </manifest>
